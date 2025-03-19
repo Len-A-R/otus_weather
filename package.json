@@ -1,0 +1,24 @@
+{
+  "name": "otus_weather",
+  "version": "1.0.0",
+  "description": "Главней всего - погода ...!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Len-A-R/otus_weather.git"
+  },
+  "keywords": [
+    "weather",
+    "погода",
+    "прогноз"
+  ],
+  "author": "Len-A-R",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Len-A-R/otus_weather/issues"
+  },
+  "homepage": "https://github.com/Len-A-R/otus_weather#readme"
+}
