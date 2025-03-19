@@ -4,6 +4,7 @@
   "description": "Главней всего - погода ...!",
   "main": "app.js",
   "scripts": {
+    "dev": "npx -y node-static src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
