@@ -3,16 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
     <title>А за окном</title>
   </head>
   <body>
     <div class="app">
-      <input
-        id="city-editor"
-        type="text"
-        placeholder="Введите название города"
-      />
+      <div id="map-container">
+        <div id="info-container">
+          <form id="city-form" onsubmit="return false;">
+            <input
+              id="city-editor"
+              type="text"
+              placeholder="Введите название города"
+            />
+            <button id="enter-btn" type="submit" autofocus>Ввод</button>
+          </form>
+          <div id="weather-info"></div>
+        </div>
+      </div>
     </div>
+    <script
+      src="https://api-maps.yandex.ru/2.1/?apikey=db731357-dfe6-4929-944b-b4ab85d8cddd&lang=ru_RU"
+      type="text/javascript"
+    ></script>
     <script src="./app.js" type="module"></script>
   </body>
 </html>
