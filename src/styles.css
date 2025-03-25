@@ -78,14 +78,6 @@
   margin-bottom: 10px;
 }
 
-.weather-info {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  z-index: 3;
-}
-
 .weather-content {
   display: flex;
   align-items: center;
@@ -139,36 +131,36 @@
 
 /* Мобильный вид */
 @media (max-width: 768px) {
-  .app {
-    display: flex;
-    flex-direction: column;
-  }
-
   #info-container {
     top: 0;
     left: 0;
     right: 0;
     padding: 15px;
-    border-radius: 0 0 8px 8px;
-    max-height: 40%;
+    border-radius: 8px;
+    margin: 10px; /* Добавляем отступы по бокам */
+    max-height: 40%; /* Уменьшаем высоту, чтобы оставить место для блока погоды */
     overflow-y: auto;
+  }
+
+  .search-container {
+    margin-bottom: 15px;
+  }
+
+  .city-history {
+    max-height: 120px;
   }
 
   .weather-info {
     position: absolute;
-    bottom: 50px;
-    left: 10px;
-    right: 10px;
-    margin-top: -100px; /* Примерно половина высоты блока */
-    text-align: center;
-  }
-
-  .weather-content {
-    justify-content: center;
-  }
-
-  .city-history {
-    max-height: 150px;
+    left: 0;
+    right: 0;
+    top: 26%; /* Размещаем сразу после info-container */
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px; /* Добавляем отступы по бокам */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 2;
   }
 }
 
@@ -187,8 +179,13 @@
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 250px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 3;
     text-align: center;
+    width: 250px;
   }
 
   .city-history {
