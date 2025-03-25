@@ -9,23 +9,48 @@
   <body>
     <div class="app">
       <div id="map-container">
-        <div id="info-container">
-          <form id="city-form" onsubmit="return false;">
-            <input
-              id="city-editor"
-              type="text"
-              placeholder="Введите название города"
-            />
-            <button id="enter-btn" type="submit" autofocus>Ввод</button>
-          </form>
-          <div id="weather-info"></div>
+        <!-- Здесь будет карта -->
+      </div>
+
+      <div id="info-container">
+        <div class="search-container">
+          <input
+            type="text"
+            id="city-editor"
+            placeholder="Введите название города"
+          />
+          <button id="enter-btn">
+            <svg
+              class="search-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="history-section">
+          <h3 class="history-title">История поиска</h3>
+          <ul class="city-history">
+            <!-- Здесь будут элементы истории -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="weather-info">
+        <h2 class="weather-title">Текущая погода</h2>
+        <div class="weather-content">
+          <img src="" alt="Погода" class="weather-icon" />
+          <div class="weather-details">
+            <p class="weather-description">Описание погоды</p>
+            <p class="weather-temp">Температура</p>
+          </div>
         </div>
       </div>
     </div>
-    <script
-      src="https://api-maps.yandex.ru/2.1/?apikey=db731357-dfe6-4929-944b-b4ab85d8cddd&lang=ru_RU"
-      type="text/javascript"
-    ></script>
     <script src="./app.js" type="module"></script>
   </body>
 </html>

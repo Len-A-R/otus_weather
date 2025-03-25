@@ -2,11 +2,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
+
 .app {
   position: relative;
   width: 100%;
   height: 100vh;
+  overflow: hidden;
 }
 
 #map-container {
@@ -21,41 +24,174 @@
 #info-container {
   position: absolute;
   z-index: 2;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
-@media (min-width: 796px) {
-  #info-container {
-    top: 20px;
-    left: 20px;
-    width: 300px;
-    bottom: 20px;
-  }
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-@media (max-width: 768px) {
-  #info-container {
-    left: 10px;
-    bottom: 10px;
-    right: 10px;
-    max-height: 40%;
-    border-radius: 8px 8px 8px 8px;
-  }
-}
 #city-editor {
-  width: 70%;
-  padding: 8px;
-  margin-right: 5px;
+  width: 100%;
+  padding: 10px;
+  padding-right: 50px; /* Оставляем место для кнопки */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 #enter-btn {
-  padding: 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 40px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+#enter-btn:hover {
+  background-color: #3367d6;
+}
+
+.weather-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.weather-info {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+}
+
+.weather-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .weather-icon {
-  display: block;
-  margin: 10px 0;
+  width: 80px;
+  height: 80px;
+  margin-right: 15px; /* Отступ справа от иконки */
+}
+
+.weather-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-description {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.weather-temp {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.history-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.city-history {
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.city-history li {
+  padding: 8px;
+  margin-bottom: 5px;
+  background-color: rgba(240, 240, 240, 0.7);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.city-history li:hover {
+  background-color: rgba(220, 220, 220, 0.9);
+}
+
+/* Мобильный вид */
+@media (max-width: 768px) {
+  .app {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #info-container {
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    border-radius: 0 0 8px 8px;
+    max-height: 40%;
+    overflow-y: auto;
+  }
+
+  .weather-info {
+    position: absolute;
+    bottom: 50px;
+    left: 10px;
+    right: 10px;
+    margin-top: -100px; /* Примерно половина высоты блока */
+    text-align: center;
+  }
+
+  .weather-content {
+    justify-content: center;
+  }
+
+  .city-history {
+    max-height: 150px;
+  }
+}
+
+/* Десктопный вид */
+@media (min-width: 769px) {
+  #info-container {
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    width: 300px;
+    overflow-y: auto;
+  }
+
+  .weather-info {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    text-align: center;
+  }
+
+  .city-history {
+    max-height: calc(100% - 150px);
+  }
 }

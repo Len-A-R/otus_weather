@@ -1,16 +1,74 @@
-/* global ymaps */
 // {"X-Yandex-Weather-Key":"demo_yandex_weather_api_key_ca6d09349ba0"}
 // openweather API KEY ce2efde41862706bd2d4973c702caa1b
 // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-
-const WEATHER_API_KEY = 'ce2efde41862706bd2d4973c702caa1b';
-// const YANDEX_MAP_API_KEY = 'db731357-dfe6-4929-944b-b4ab85d8cddd';
 const cityEditor = document.getElementById('city-editor');
 const enterBtn = document.getElementById('enter-btn');
-const weatherInfo = document.getElementById('weather-info');
+const cityHistoryList = document.querySelector('.city-history');
 
-let yandexMap;
-let mapInitialized = false;
+const weatherIcon = document.querySelector('.weather-icon');
+const weatherDescription = document.querySelector('.weather-description');
+const weatherTemp = document.querySelector('.weather-temp');
+const mapContainer = document.getElementById('map-container');
+
+// Функция для загрузки истории городов из localStorage
+function loadCityHistory() {
+  const history = JSON.parse(localStorage.getItem('cityHistory')) || [];
+  return history;
+}
+// Функция для отображения истории городов
+function displayCityHistory() {
+  const history = loadCityHistory();
+
+  // Очищаем текущий список
+  cityHistoryList.innerHTML = '';
+
+  // Добавляем каждый город как элемент списка
+  history.forEach((city) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = city;
+    // Добавляем обработчик клика
+    listItem.addEventListener('click', () => {
+      // Устанавливаем значение в поле ввода
+      cityEditor.value = city;
+
+      // Имитируем клик по кнопке поиска
+      enterBtn.click();
+    });
+
+    cityHistoryList.appendChild(listItem);
+  });
+}
+
+// Функция для сохранения истории городов в localStorage
+function saveCityHistory(city) {
+  let history = loadCityHistory();
+
+  // Проверяем, есть ли уже такой город в истории
+  const cityIndex = history.indexOf(city);
+
+  // Если город уже есть в истории, удаляем его
+  if (cityIndex !== -1) {
+    history.splice(cityIndex, 1);
+  }
+
+  // Добавляем город в список
+  history.push(city);
+
+  // Сортируем список по алфавиту
+  history.sort();
+
+  // Ограничиваем список до 10 элементов
+  if (history.length > 10) {
+    history = history.slice(0, 10);
+  }
+
+  // Сохраняем обновленную историю
+  localStorage.setItem('cityHistory', JSON.stringify(history));
+
+  // Обновляем отображение истории
+  displayCityHistory();
+}
+
 // Текущий город
 function getCurrentLocation() {
   return fetch('https://get.geojs.io/v1/ip/geo.json')
@@ -30,23 +88,15 @@ function getCurrentLocation() {
     });
 }
 // Координаты города
-function getCoordinates(cityName, apiKey) {
+function getCoordinates(cityName) {
   return new Promise((resolve, reject) => {
     if (!cityName) {
       reject(new Error('Не указан город'));
       return;
     }
-    if (!apiKey) {
-      reject(
-        new Error(
-          'Не указан ключ API см. https://openweathermap.org/current#geocoding',
-        ),
-      );
-      return;
-    }
 
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`,
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=ce2efde41862706bd2d4973c702caa1b`,
     )
       .then((response) => {
         if (!response.ok) {
@@ -83,14 +133,14 @@ function getCoordinates(cityName, apiKey) {
   });
 }
 // Информация о погоде
-function getWeatherInfo(lat, lon, apiKey) {
+function getWeatherInfo(lat, lon) {
   return new Promise((resolve, reject) => {
-    if (!lat || !lon || !apiKey) {
-      reject(new Error('Не указаны координаты или ключ API'));
+    if (!lat || !lon) {
+      reject(new Error('Не указаны координаты'));
       return;
     }
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`,
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ce2efde41862706bd2d4973c702caa1b`,
     )
       .then((response) => {
         if (!response.ok) {
@@ -122,56 +172,25 @@ function getWeatherInfo(lat, lon, apiKey) {
   });
 }
 
-// Инициализация карты Яндекс Карт
-function initYandexMap(lat, lng, cityName) {
-  // Если карта уже инициализирована, просто обновляем центр и маркер
-  if (mapInitialized && yandexMap) {
-    yandexMap.setCenter([lat, lng], 10);
-    // Очищаем все метки
-    yandexMap.geoObjects.removeAll();
-    // Добавляем новую метку
-    yandexMap.geoObjects.add(
-      new ymaps.Placemark([lat, lng], {
-        balloonContent: cityName,
-      }),
-    );
-    return;
-  }
-  // Инициализируем карту при первом вызове
-  ymaps.ready(() => {
-    yandexMap = new ymaps.Map('map-container', {
-      center: [lat, lng],
-      zoom: 12,
-      controls: [],
-      copyrightLogoVisible: false,
-      copyrightProvidersVisible: false,
-      copyrightUaVisible: false,
-    });
-
-    // Добавляем метку на карту
-    yandexMap.geoObjects.add(
-      new ymaps.Placemark([lat, lng], {
-        balloonContent: cityName,
-      }),
-    );
-
-    mapInitialized = true;
-  });
-}
-
 // Получение информации о погоде и отображение на странице
 function getWeather(city) {
-  getCoordinates(city, WEATHER_API_KEY)
+  getCoordinates(city)
     .then(({ lat, lon }) => {
-      getWeatherInfo(lat, lon, WEATHER_API_KEY)
+      getWeatherInfo(lat, lon)
         .then((weather) => {
-          weatherInfo.innerHTML = `
-          <p>Погода в ${city}</p>
-          <p>Температура: ${weather.temp}°C</p>
-          <p>Описание: ${weather.description}</p>
-          <img class="weather-icon" src="${weather.iconUrl}" alt="${weather.description}">
-          `;
-          initYandexMap(weather.coord.lat, weather.coord.lon, city);
+          // Сохраняем город в историю
+          saveCityHistory(city);
+
+          weatherIcon.src = weather.iconUrl;
+          weatherIcon.alt = weather.description;
+          weatherDescription.textContent = weather.description;
+          weatherTemp.textContent = `${weather.temp} °C`;
+          const mapUrl = `https://static-maps.yandex.ru/v1?ll=${lon},${lat}&lang=ru_RU&size=650,450&z=10&apikey=578cfe4c-8ea6-4ace-a418-31752d498590`;
+          // загружаем картинку карты в div mapContainer
+          mapContainer.style.backgroundImage = `url(${mapUrl})`;
+          mapContainer.style.backgroundSize = 'cover';
+          mapContainer.style.backgroundRepeat = 'no-repeat';
+          mapContainer.style.backgroundPosition = 'center';
         })
         .catch((error) => {
           alert(`Ошибка: ${error.message}`);
@@ -199,4 +218,9 @@ enterBtn.addEventListener('click', () => {
     return;
   }
   getWeather(city);
+});
+
+// Загружаем историю при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+  displayCityHistory();
 });
