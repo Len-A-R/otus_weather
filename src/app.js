@@ -220,6 +220,14 @@ enterBtn.addEventListener('click', () => {
   getWeather(city);
 });
 
+// Обработчик события нажатия Enter в поле ввода города
+cityEditor.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    enterBtn.click();
+  }
+});
+
 // Загружаем историю при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
   displayCityHistory();
