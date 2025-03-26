@@ -212,3 +212,70 @@
     max-height: calc(100% - 150px);
   }
 }
+
+.error-dialog {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-dialog-content {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+  overflow: hidden;
+}
+
+.error-dialog-header {
+  background-color: #f44336;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-dialog-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.error-dialog-close {
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.error-dialog-body {
+  padding: 20px;
+  color: #333;
+}
+
+.error-dialog-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #ddd;
+}
+
+.error-dialog-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.error-dialog-button:hover {
+  background-color: #d32f2f;
+}
